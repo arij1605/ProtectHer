@@ -54,7 +54,20 @@ public class JackPotController {
 		jackPotServiceIm.assignJackPotToUser(idJackPot, id);
 	}
 	
+	/*@PutMapping("/assign-event-to-jackPot")
+	@ResponseBody
+	public void assignEventToJackPot(@RequestParam("idEvent") Long idEvent, @RequestParam("idJackpot") Long idJackpot) {
+		jackPotServiceIm.assignEventToJackPot(idEvent, idJackpot);
+	}
+
 	
+	}*/
+	
+	@PutMapping("/assign-jackPot-to-event")
+	@ResponseBody
+	public void assignJackPotToEvent(@RequestParam("idJackpot") Long idJackpot, @RequestParam("idEvent") Long idEvent) {
+		jackPotServiceIm.assignJackPotToEvent(idJackpot, idEvent);
+	}
 
 	
 	}

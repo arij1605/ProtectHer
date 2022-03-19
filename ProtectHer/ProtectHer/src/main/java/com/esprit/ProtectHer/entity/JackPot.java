@@ -3,7 +3,6 @@ package com.esprit.ProtectHer.entity;
 import java.io.Serializable;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 
@@ -14,12 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
-
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,24 +29,28 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
+public class JackPot implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; // Clé primaire
-	private String FirstName;
-	private String LastName;
-	private String Adress;
-	private String BirthDate;
+	private Long idJackpot; // Clé primaire
+	@NotNull
+	@Min(2)
+	private Integer somme;
 	
 	@Enumerated(EnumType.STRING)
-	private Role role;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	private DonationType donationtype;
+	
+	
+	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "jackpots")
 	@JsonIgnore
-	private List<JackPot> jackpots;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="users")
+	private List<User> users;
+	
+	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "jackpots")
 	@JsonIgnore
-	private Set<Advertising> advertising;
+	private List<Event> events;
+	
+	
 	
 }

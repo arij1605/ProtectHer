@@ -1,6 +1,7 @@
 package com.esprit.ProtectHer.Service;
 
 
+
 import com.esprit.ProtectHer.entity.Event;
 
 
@@ -14,6 +15,5 @@ public interface EventServiceIm {
 
 	Event retrieveEvent(Long id);
 
-	public void assignAdvertisingToEvent(Long idEvent, Long idAdvertising);
+	public void assignAdvertisingToEvent(Long idEvent, Long idAdvertising);}
 
-}

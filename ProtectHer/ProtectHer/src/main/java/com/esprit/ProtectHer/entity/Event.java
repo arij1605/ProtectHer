@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -37,16 +39,32 @@ public class Event implements Serializable {
 	private Long idEvent; // Clé primaire
 	
 	@Temporal(TemporalType.DATE)
+	@NotNull
 	private Date eventDate;
+	@NotNull
+	@Size(min=2, max=10)
 	private String concept;
+	
 	private String photoE;
 	
 	
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private DonationType donationtype;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Advertising> advertisings;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<User> users;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<JackPot> jackpots;
+	
+	
 	
 
 }

@@ -1,3 +1,4 @@
+
 package com.esprit.ProtectHer.entity;
 
 import java.io.Serializable;
@@ -13,9 +14,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,11 +33,15 @@ public class Advertising   implements Serializable   {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idAdvertising; // Clé primaire
+	
+	@NotNull
+	@Size(min=2, max=10)
 	private String Description;
 	private String photo;
 	
 	
 	@Temporal(TemporalType.DATE)
+	@NotNull
 	private Date AdvertisingDate;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
