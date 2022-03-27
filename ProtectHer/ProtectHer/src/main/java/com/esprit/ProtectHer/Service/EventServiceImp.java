@@ -77,6 +77,22 @@ public class EventServiceImp implements EventServiceIm {
 		event.setAdvertisings(advertisings);
 		eventRepository.save(event);
 	}
+	
+	
+	@Override
+	public float  stat (Long idEvent) {
+		Event e = eventRepository.getById(idEvent) ;
+		int n = 0 , tn ; 
+		
+		float p ;
+		n = e.getAdvertisings().size() ;
+		tn = e.getCapacite() ;
+		p = (n*100)/tn ;
+		
+		return p ;
+			}
+	
+	
 	/*recherche tri*/
 	public PagingResponse get(Specification<Event> spec, HttpHeaders headers, Sort sort) {
         if (isRequestPaged(headers)) {

@@ -87,7 +87,7 @@ public class EventController {
 		List<User> users = event.getUsers();
 		if (event.getUsers() != null) {
 			for (User user : users) {
-				emailServiceImpl.sendEmail(user.getMail(), "Join Our Event", "Welcome, \nYou are invited to join our event.");
+				emailServiceImpl.sendEmail(user.getMail(), "Join Our Event", " Alert !!!, \n You are invited to join our event.");
 			}
 		}
 	}
@@ -138,4 +138,14 @@ public class EventController {
 		headers.set(PagingHeaders.PAGE_TOTAL.getName(), String.valueOf(response.getPageTotal()));
 		return headers;
 	}
+	
+	@GetMapping("/stat/{idEvent}")
+	@ResponseBody
+	public float statfor (@PathVariable ("idEvent")Long idEvent) {
+		
+		return eventServiceIm.stat(idEvent) ;
+		
+	}
+	
+	
 }
