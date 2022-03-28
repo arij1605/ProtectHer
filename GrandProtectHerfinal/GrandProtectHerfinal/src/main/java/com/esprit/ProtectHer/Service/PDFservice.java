@@ -1,6 +1,5 @@
 package com.esprit.ProtectHer.Service;
 
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,9 +14,6 @@ import com.esprit.ProtectHer.Repository.TrainingRepository;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
-
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -29,34 +25,32 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.qrcode.WriterException;
 import com.esprit.ProtectHer.entity.Training;
 
-
-
 @Component("pdfService")
 public class PDFservice {
-	
-	@Value("C:/Formation")
+
+	@Value("C:/Formation/")
 	private String pdfDir;
 
 	@Value("dd MMMM yyyy HH:mm:ss")
 	private String localDateFormat;
 
-	@Value("C:/Formation/protectLogo.png")
+	@Value("C:/Formation/logo.png")
 	private String logoImgPath;
 
 	@Autowired
-	
+
 	TrainingRepository trainingRepository;
 
 	private static Font COURIER = new Font(Font.FontFamily.COURIER, 18, Font.BOLD);
 	private static Font COURIER_MEDIUM = new Font(Font.FontFamily.COURIER, 14, Font.BOLD);
 	private static Font COURIER_SMALL = new Font(Font.FontFamily.COURIER, 12, Font.BOLD);
-	
+
 	public void generatePdfReport() throws WriterException, IOException {
 		Document document = new Document(PageSize.A4.rotate());
-		List<Training> trainings = trainingRepository.findByEtat(false) ;
+		List<Training> trainings = trainingRepository.findByEtat(false);
 		try {
 			for (Training training : trainings) {
-				PdfWriter.getInstance(document, new FileOutputStream(pdfDir + ""+ ".pdf"));
+				PdfWriter.getInstance(document, new FileOutputStream(pdfDir + "generatePdf" + ".pdf"));
 				document.open();
 				addLogo(document);
 				addDocTitle(document);
@@ -100,11 +94,11 @@ public class PDFservice {
 		paragraph.add((new Paragraph("\nLevel :" + training.getLevel(), COURIER_SMALL)));
 		document.add(paragraph);
 	}
+
 	private static void leaveEmptyLine(Paragraph paragraph, int number) {
 		for (int i = 0; i < number; i++) {
 			paragraph.add(new Paragraph(" "));
 		}
 	}
-
 
 }
