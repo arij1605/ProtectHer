@@ -76,7 +76,6 @@ public class User implements Serializable {
 	private String picturePath;
 
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JsonIgnore
 	private Set<Role> roles;
 
 	@OneToOne(mappedBy = "owner", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

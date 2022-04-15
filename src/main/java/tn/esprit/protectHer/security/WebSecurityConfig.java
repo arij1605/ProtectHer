@@ -55,15 +55,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.httpBasic().and().csrf().disable();
 
-		http.authorizeRequests().antMatchers("/authentication/signIn").permitAll().antMatchers("/user/updateUser")
-				.permitAll().antMatchers("/user/uploadPictureToUser").permitAll();
+//		http.authorizeRequests().antMatchers("/authentication/signIn").permitAll().antMatchers("/user/updateUser")
+//				.permitAll().antMatchers("/user/uploadPictureToUser").permitAll();
+//
+//		http.authorizeRequests().antMatchers("/authentication/signUp").hasAuthority("ADMIN")
+//				.antMatchers("/invitation/**").hasAuthority("ADMIN")
+//				.antMatchers("/user/**").hasAuthority("ADMIN").antMatchers("/subscription/**").hasAuthority("ADMIN")
+//				.anyRequest().authenticated();
 
-		http.authorizeRequests().antMatchers("/authentication/signUp").hasAuthority("ADMIN")
-				.antMatchers("/invitation/**").hasAuthority("ADMIN")
-				.antMatchers("/user/**").hasAuthority("ADMIN").antMatchers("/subscription/**").hasAuthority("ADMIN")
-				.anyRequest().authenticated();
-
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+//		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 	}
 
