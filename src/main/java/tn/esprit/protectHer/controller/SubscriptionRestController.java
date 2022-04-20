@@ -1,6 +1,7 @@
 package tn.esprit.protectHer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import tn.esprit.protectHer.entity.Subscription;
+import tn.esprit.protectHer.entity.User;
+import tn.esprit.protectHer.repository.SubscriptionRepository;
 import tn.esprit.protectHer.service.ISubscriptionService;
-
+@CrossOrigin(allowCredentials = "true", origins = "http://localhost:4200")
 @RestController
 @Api(tags = "Subscription Management")
 @RequestMapping("/subscription")
@@ -22,6 +25,8 @@ public class SubscriptionRestController {
 
 	@Autowired
 	private ISubscriptionService subscriptionService;
+	@Autowired
+	private SubscriptionRepository subscriptionRepository;
 	
 	@ApiOperation(value = "Create a subscription")
 	@PostMapping("/createSubscription")
@@ -62,6 +67,12 @@ public class SubscriptionRestController {
 	@ResponseBody
 	public Subscription assignUserToSubscription(@RequestParam("user-id") Long userId, @RequestParam("subscription-id") Long subscriptionId) {
 		return subscriptionService.assignUserToSubscription(userId, subscriptionId);
+	}
+	@ApiOperation(value = "Retrieve all subscriptions")
+	@GetMapping("/retrieveAllSubscriptions")
+	@ResponseBody
+	public Iterable<Subscription> retrieveAllSubscriptions() {
+		return subscriptionRepository.findAll();
 	}
 
 }

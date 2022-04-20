@@ -32,8 +32,9 @@ import tn.esprit.protectHer.security.JWTUtils;
 import tn.esprit.protectHer.service.MessageServiceImpl;
 import tn.esprit.protectHer.service.UserDetailsImpl;
 import tn.esprit.protectHer.util.SMSResponse;
+import tn.esprit.protectHer.util.UserDetails;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(allowCredentials = "true", origins = "http://localhost:4200")
 @RestController
 @Api(tags = "Authentication Management")
 @RequestMapping("/authentication")
@@ -58,20 +59,18 @@ public class AuthenticationController {
 
 	@ApiOperation(value = "Sign In")
 	@PostMapping("/signIn")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthUser user) {
+	public UserDetails authenticateUser(@Valid @RequestBody AuthUser authUser) {
 
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
+				new UsernamePasswordAuthenticationToken(authUser.getUserName(), authUser.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtUtils.generateJwtToken(authentication);
 
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-				.collect(Collectors.toList());
+		
+		User user = userRepository.findByUserName(userDetails.getUsername()).get();
 
-		return ResponseEntity.ok(
-				new JWTResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+		return new UserDetails(user, jwtUtils.generateJwtToken(authentication));
 	}
 
 	@ApiOperation(value = "Sign Up")
