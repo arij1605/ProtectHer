@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,8 @@ import tn.esprit.protectHer.service.IUserService;
 @Api(tags = "User Management")
 @RequestMapping("/user")
 public class UserRestController {
-
+	@Value("C:\\Users\\emnam\\Documents\\GitHub\\protectHer-Frontend\\src\\assets\\upload")
+	private String uploadPath;
 	@Autowired
 	private IUserService userService;
 
@@ -40,13 +42,13 @@ public class UserRestController {
 		try {
 			User user = userRepository.findById(userId).orElse(null);
 			if (user != null) {
-				File directory = new File("upload//");
+				File directory = new File(uploadPath);
 				if (!directory.exists())
 					directory.mkdir();
 				byte[] bytes = new byte[0];
 				bytes = file.getBytes();
-				Files.write(Paths.get("upload//" + file.getOriginalFilename()), bytes);
-				user.setPicturePath(Paths.get("upload//" + file.getOriginalFilename()).toString());
+				Files.write(Paths.get(uploadPath + file.getOriginalFilename()), bytes);
+				user.setPicturePath("assets/upload/" + file.getOriginalFilename());
 				return userRepository.save(user);
 			}
 		} catch (Exception e) {
